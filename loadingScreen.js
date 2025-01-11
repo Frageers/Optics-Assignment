@@ -7,16 +7,13 @@ const messages = [
     "Reminder to give your eyes breaks every 10-15 minutes!"
 ];
 
-// Show Loading Screen with 35% chance
+// Show Loading Screen
 function showLoadingScreen() {
-    const randomChance = Math.random();
-    if (randomChance < 0.35) {  // 35% chance (0 to 0.35)
-        const loadingScreen = document.getElementById('loading-screen');
-        const loadingMessage = document.getElementById('loading-message');
-        const randomIndex = Math.floor(Math.random() * messages.length);
-        loadingMessage.textContent = messages[randomIndex];
-        loadingScreen.classList.add('active');
-    }
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingMessage = document.getElementById('loading-message');
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    loadingMessage.textContent = messages[randomIndex];
+    loadingScreen.classList.add('active');
 }
 
 // Hide Loading Screen
@@ -36,20 +33,8 @@ if (!document.getElementById('loading-screen')) {
 
 // Show loading screen when the page starts to load
 window.addEventListener('load', () => {
-    showLoadingScreen();  // Will show 35% of the time
+    showLoadingScreen();
     setTimeout(() => {
         hideLoadingScreen();
-    }, 3000);  // Hide after 3 seconds
-});
-
-// Trigger loading screen when navigating back to index
-const learnMoreLinks = document.querySelectorAll('a[href="index.html"]');
-learnMoreLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent the default navigation
-        showLoadingScreen();  // Will show 35% of the time
-        setTimeout(() => {
-            window.location.href = e.target.href; // Navigate after loading screen is shown
-        }, 3000);  // Wait 3 seconds before navigating
-    });
+    }, 2000);  // Optional: Delay the hide for 2 seconds, you can adjust as needed
 });
