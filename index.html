@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doc Brown Optomerists</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <h1 id="mainHead">Common eye diseases</h1>
+    
+        <div id="container">
+        <!-- Glaucoma Listing -->
+            <div class="disease">
+                <a href="glaucoma.html" class="diseaseName">
+                    <img src="glaucomaDiagram.jpg" alt="Glaucoma" class="diseaseListing">
+                    <h2>Glaucoma</h2>
+                </a>
+            </div>
+        
+            <div class="disease">
+                <a href="cataracts.html" class="diseaseName">
+                <img src="cataractsDiagram.png" alt="Cataract" class="diseaseListing">
+                <h2>Cataract</h2>
+                </a>
+            </div>
+            
+            <div class="disease">
+                <a href="astigmatism.html" class="diseaseName">
+                    <img src="astigmatism.jpg" alt="Astigmatism" class="diseaseListing">
+                    <h2>Astigmatism</h2>
+                </a>
+            </div>
+            
+            <div class="disease">
+                <a href="retinalDetachment.html" class="diseaseName">
+                    <img src="retinalDetachmentDiagram.jpg" alt="Astigmatism" class="diseaseListing">
+                    <h2>Retinal Detachment</h2>
+                </a>
+            </div>
+            
+            <div class="disease">
+                <a href="macularDegeneraton.html" class="diseaseName">
+                    <img src="macularDegen.jpeg" alt="Astigmatism" class="diseaseListing">
+                    <h2>Macular Degeneration</h2>
+                </a>
+            </div>
+            
+            <div class="disease">
+                <a href="colorBlindness.html" class="diseaseName">
+                    <img src="colorBlindness.jpg" alt="Astigmatism" class="diseaseListing">
+                    <h2>Color Blindness</h2>
+                </a>
+            </div>
+            
+            <div class="disease">
+                <a href="diabeticRetinopathy.html" class="diseaseName">
+                    <img src="diabeticRetinopathy.jpg" alt="Astigmatism" class="diseaseListing">
+                    <h2>Diabetic Retinopathy</h2>
+                </a>
+            </div>                    
+
+
+    <!-- Chat Widget -->
+    <div id="chat-widget" onclick="toggleChat(event)" role="button" tabindex="0" aria-label="Chat widget">
+        <div class="chat-header">Chat</div>
+        <button id="minimize-btn" onclick="minimizeChat(event)" aria-label="Minimize Chat">&#9660;</button>
+    </div>
+
+    <!-- Chat Content -->
+    <div id="chat-content" style="display: none;">
+        <div id="chat-messages"></div>
+        <div id="chat-input">
+            <!-- Buttons will be dynamically generated here -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

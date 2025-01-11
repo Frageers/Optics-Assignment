@@ -1,0 +1,65 @@
+body{
+    background-color: #b2beb5;
+    color: #333333;
+}
+#mainHead{
+    text-align: center;
+    color: #6b8e23;
+}
+
+#quickInfoBox{
+    
+    background-color: #e0e4e3;
+    flex: 1;
+    max-width: calc(100% - 471px);
+    height: 325px;
+    text-align: left;
+    color: #333333;
+}
+
+#container{
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+#quickInfoHeader{
+    text-align: center;
+    color: #6b8e23;
+}
+
+#imgDiv{
+    text-align: right;
+}
+
+#imgDiv img{
+    height: 325px;
+    width: auto;
+}
+.subHeader{
+    text-align: center;
+    color: #556b2f;
+}
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+/* Show loading screen */
+#loading-screen.active {
+    visibility: visible;
+    opacity: 1;
+}
