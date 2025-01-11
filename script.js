@@ -15,7 +15,7 @@ const botResponses = {
     macular_degeneration: "Degeneration of the macula in the retina which is responsible for central vision. <a href='macularDegeneraton.html' style='float:right'><strong>Learn More</strong></a>",
     colour_blindness: "Different way of seeing colors <a href='colorBlindness.html' style='float:right'><strong>Learn More</strong></a>",
     diabetic_retinopathy: "Blood vessels that nourish the retina get cut off because of the increased sugar in blood causing you to lose vision <a href='diabeticRetinopathy.html' style='float:right'><strong>Learn More</strong></a>",
-    strabismus: "Loss of control of the mucles of the eye causing an alignment issue<a href='strabismus.html' style='float:right'><strong>Learn More</strong></a>"
+    strabismus: "Loss of control of the muscles of the eye causing an alignment issue<a href='strabismus.html' style='float:right'><strong>Learn More</strong></a>"
 };
 
 // Toggle Chat Widget
@@ -98,6 +98,15 @@ function addMessage(text, sender) {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
+// Global loading messages
+const messages = [
+    "We see you squinting, Let us help with that!",
+    "This loaded 5 seconds ago, make sure you're not lagging",
+    "Finding misplaced code",
+    "Eye'm working on it, Hold tight!",
+    "Reminder to give your eyes breaks every 10-15 minutes!"
+];
+
 // Show Loading Screen
 function showLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
@@ -113,25 +122,31 @@ function hideLoadingScreen() {
     loadingScreen.classList.remove('active');
 }
 
-// Listen for Navigation Event
-window.addEventListener('beforeunload', () => {
+// Add loading screen HTML if not already present
+if (!document.getElementById('loading-screen')) {
+    document.body.insertAdjacentHTML('afterbegin', `
+        <div id="loading-screen">
+            <p id="loading-message"></p>
+        </div>
+    `);
+}
+
+// Show loading screen when the page starts to load
+window.addEventListener('load', () => {
     showLoadingScreen();
     setTimeout(() => {
-        hideLoadingScreen(); // Hide loading screen before leaving
-    }, 2000);  // Optional: Delay the page unload for 2 seconds
+        hideLoadingScreen();
+    }, 3000);  // Increased the timeout to 3 seconds (you can adjust this as needed)
 });
 
-// Loading Screen Elements
-document.body.insertAdjacentHTML('afterbegin', `
-    <div id="loading-screen">
-        <p id="loading-message"></p>
-    </div>
-`);
-
-const messages = [
-    "We see you squinting, Let us help with that!",
-    "This loaded 5 seconds ago, make sure you're not lagging",
-    "Finding misplaced code",
-    "Eye'm working on it, Hold tight!",
-    "Reminder to give your eyes breaks every 10-15 minutes!"
-];
+// Trigger loading screen when navigating back to index
+const learnMoreLinks = document.querySelectorAll('a[href="index.html"]');
+learnMoreLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent the default navigation
+        showLoadingScreen();
+        setTimeout(() => {
+            window.location.href = e.target.href; // Navigate after loading screen is shown
+        }, 3000);  // Wait 3 seconds before navigating (increase this if necessary)
+    });
+});
