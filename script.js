@@ -15,7 +15,10 @@ const botResponses = {
     macular_degeneration: "Degeneration of the macula in the retina which is responsible for central vision. <a href='macularDegeneraton.html' style='float:right'><strong>Learn More</strong></a>",
     colour_blindness: "Different way of seeing colors <a href='colorBlindness.html' style='float:right'><strong>Learn More</strong></a>",
     diabetic_retinopathy: "Blood vessels that nourish the retina get cut off because of the increased sugar in blood causing you to lose vision <a href='diabeticRetinopathy.html' style='float:right'><strong>Learn More</strong></a>",
-    strabismus: "Loss of control of the muscles of the eye causing an alignment issue<a href='strabismus.html' style='float:right'><strong>Learn More</strong></a>"
+    strabismus: "Loss of control of the mucles of the eye causing an alignment issue<a href='strabismus.html' style='float:right'><strong>Learn More</strong></a>",
+    "what_is_the_20/20/20_rule?": "It is a rule to avoid constant starin on eyes. Every 20 minutes, take a 20 second brake and stare at an object that is 20 feet away",
+    book_an_appointment: "Book an appointment with one of our very capable doctors to get a treatment or to get a general checkup<a href='appointment.html' style='float:right'><strong>Book one right now</strong></a>",
+    how_often_should_i_book_an_appointment: "We reccomend booking an appointment every 6 months to a year"
 };
 
 // Toggle Chat Widget
@@ -50,7 +53,7 @@ function clearMessages() {
 // Start Chat with Greeting
 function startChat() {
     addMessage("Hi, I'm here to help! Click below to get started.", 'bot');
-    showButtons(['Glaucoma', 'Cataracts', 'Astigmatism', 'Retinal Detachment', 'Macular degeneration', 'Colour Blindness', 'Diabetic Retinopathy', 'Strabismus']);
+    showButtons(['Glaucoma', 'Cataracts', 'Astigmatism', 'Retinal Detachment', 'Macular degeneration', 'Colour Blindness', 'Diabetic Retinopathy', 'Strabismus', 'What is the 20/20/20 rule?', 'How often should I book an appointment','Book an appointment']);
 }
 
 // Show Options as Buttons
@@ -80,7 +83,7 @@ function handleButtonClick(option) {
 function showBotResponse(option) {
     const response = botResponses[option] || "I'm sorry, I don't have information on that topic.";
     addMessage(response, 'bot');
-    showButtons(['Glaucoma', 'Cataracts', 'Astigmatism', 'Retinal Detachment', 'Macular degeneration', 'Colour Blindness', 'Diabetic Retinopathy', 'Strabismus']);
+    showButtons(['Glaucoma', 'Cataracts', 'Astigmatism', 'Retinal Detachment', 'Macular degeneration', 'Colour Blindness', 'Diabetic Retinopathy', 'Strabismus', 'What is the 20/20/20 rule', 'How often should I book an appointment','Book an appointment']);
 }
 
 // Add Message to the Chat
@@ -98,15 +101,6 @@ function addMessage(text, sender) {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-// Global loading messages
-const messages = [
-    "We see you squinting, Let us help with that!",
-    "This loaded 5 seconds ago, make sure you're not lagging",
-    "Finding misplaced code",
-    "Eye'm working on it, Hold tight!",
-    "Reminder to give your eyes breaks every 10-15 minutes!"
-];
-
 // Show Loading Screen
 function showLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
@@ -122,31 +116,25 @@ function hideLoadingScreen() {
     loadingScreen.classList.remove('active');
 }
 
-// Add loading screen HTML if not already present
-if (!document.getElementById('loading-screen')) {
-    document.body.insertAdjacentHTML('afterbegin', `
-        <div id="loading-screen">
-            <p id="loading-message"></p>
-        </div>
-    `);
-}
-
-// Show loading screen when the page starts to load
-window.addEventListener('load', () => {
+// Listen for Navigation Event
+window.addEventListener('beforeunload', () => {
     showLoadingScreen();
     setTimeout(() => {
-        hideLoadingScreen();
-    }, 3000);  // Increased the timeout to 3 seconds (you can adjust this as needed)
+        hideLoadingScreen(); // Hide loading screen before leaving
+    }, 2000);  // Optional: Delay the page unload for 2 seconds
 });
 
-// Trigger loading screen when navigating back to index
-const learnMoreLinks = document.querySelectorAll('a[href="index.html"]');
-learnMoreLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent the default navigation
-        showLoadingScreen();
-        setTimeout(() => {
-            window.location.href = e.target.href; // Navigate after loading screen is shown
-        }, 3000);  // Wait 3 seconds before navigating (increase this if necessary)
-    });
-});
+// Loading Screen Elements
+document.body.insertAdjacentHTML('afterbegin', `
+    <div id="loading-screen">
+        <p id="loading-message"></p>
+    </div>
+`);
+
+const messages = [
+    "We see you squinting, Let us help with that!",
+    "This loaded 5 seconds ago, make sure you're not lagging",
+    "Finding misplaced code",
+    "Eye'm working on it, Hold tight!",
+    "Reminder to give your eyes breaks every 10-15 minutes!"
+];
