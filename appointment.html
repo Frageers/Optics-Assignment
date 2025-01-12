@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        #appointment-form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        input, select {
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #confirmation-message {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .error {
+            color: red;
+        }
+        
+        #loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+/* Show loading screen */
+#loading-screen.active {
+    visibility: visible;
+    opacity: 1;
+}
+    </style>
+</head>
+<body>
+    <div id="appointment-form-container">
+        <h2>Book an Appointment</h2>
+        <form id="appointment-form">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required placeholder="Enter your full name">
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+
+            <label for="doctor">Choose a Doctor:</label>
+            <select id="doctor" name="doctor" required>
+                <option value="Dr. Smith">Dr. Smith</option>
+                <option value="Dr. Johnson">Dr. Johnson</option>
+                <option value="Dr. Lee">Dr. Lee</option>
+            </select>
+
+            <label for="date">Preferred Appointment Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="time">Preferred Time:</label>
+            <input type="time" id="time" name="time" required>
+
+            <button type="submit" id="submit-btn">Book Appointment</button>
+        </form>
+        <div id="confirmation-message"></div>
+    </div>
+
+    <script>
+    document.getElementById('appointment-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent page reload on form submission
+
+    // Collect form values
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const doctor = document.getElementById('doctor').value;
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+
+    // Validate the appointment date and time (Must be Mon-Fri, 9am - 6:30pm)
+    const appointmentDate = new Date(`${date}T${time}`);
+    const dayOfWeek = appointmentDate.getDay(); // Sunday = 0, Monday = 1, ...
+    const isBusinessHour = appointmentDate.getHours() >= 9 && appointmentDate.getHours() < 18 || 
+        (appointmentDate.getHours() === 18 && appointmentDate.getMinutes() <= 30); // 9 AM - 6:30 PM
+
+    // Check if the selected date has already passed
+    const currentDate = new Date();
+    if (appointmentDate < currentDate) {
+        alert("The selected date has already passed. Please choose a future date.");
+        return;
+    }
+
+    if (dayOfWeek === 0 || dayOfWeek === 6 || !isBusinessHour) {
+        alert("Appointments must be scheduled between Monday to Friday, 9 AM to 6:30 PM.");
+        return;
+    }
+
+    // 35% chance that the time slot is full
+    const isSlotFull = Math.random() < 0.35;
+    if (isSlotFull) {
+        alert("Sorry, this time slot is already booked. Please select a different time.");
+        return;
+    }
+
+    // Show the confirmation message
+    document.getElementById('confirmation-message').innerHTML = `
+        <p>Thank you, ${name}! Your appointment with ${doctor} has been booked for ${date} at ${time}.</p>
+    `;
+});
+
+// Show Loading Screen
+function showLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingMessage = document.getElementById('loading-message');
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    loadingMessage.textContent = messages[randomIndex];
+    loadingScreen.classList.add('active');
+}
+
+// Hide Loading Screen
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.classList.remove('active');
+}
+
+// Listen for Navigation Event
+window.addEventListener('beforeunload', () => {
+    showLoadingScreen();
+    setTimeout(() => {
+        hideLoadingScreen(); // Hide loading screen before leaving
+    }, 2000);  // Optional: Delay the page unload for 2 seconds
+});
+
+// Loading Screen Elements
+document.body.insertAdjacentHTML('afterbegin', `
+    <div id="loading-screen">
+        <p id="loading-message"></p>
+    </div>
+`);
+
+const messages = [
+    "We see you squinting, Let us help with that!",
+    "This loaded 5 seconds ago, make sure you're not lagging",
+    "Finding misplaced code",
+    "Eye'm working on it, Hold tight!",
+    "Reminder to give your eyes breaks every 10-15 minutes!"
+];
+
+
+    </script>
+</body>
+</html>
